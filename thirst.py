@@ -3,32 +3,60 @@
 import os
 import sys
 import urllib
+import urllib2
 import re
 from bs4 import BeautifulSoup
 
 home = 'http://www.tutorialspoint.com'
 
-f=urllib.urlopen(sys.argv[1])
-s=f.read()
-f.close()
-soup = BeautifulSoup(s, "lxml")
+url_list = open("url_list", "a")
 
-mydivs = soup.findAll("div", { "class" : "nxt-btn" })
+next_page = sys.argv[1]
+flag = 0
 
-paragraphs = []
+def populate_list():
+	global next_page
+	global flag
+	
+	regexp = re.compile('[/a-zA-Z0-9_-]*.htm')
+	
+	while 1:
+		f = urllib.urlopen(next_page)
+		s = f.read()
+		f.close()
+		
+		soup = BeautifulSoup(s, "lxml")
 
-#print mydivs
+		mydivs = soup.findAll("div", { "class" : "nxt-btn" })
 
-for x in mydivs:
-        paragraphs.append(str(x))
+		paragraphs = []
 
-#print paragraphs[0]
-#print type(paragraphs[0])
+		for x in mydivs:
+		        paragraphs.append(str(x))
 
-regexp = re.compile('[/a-zA-Z0-9_]*.htm')
-result = regexp.search(paragraphs[0])
+		result = regexp.search(paragraphs[0])
 
-next_page = home + result.group()
+		next_page = home + result.group()
 
-print next_page
+		next_pdf = next_page[::-1]
 
+		next_pdf = next_pdf.replace("/", "/fdp/", 1)
+
+		next_pdf = next_pdf.replace("mth", "fdp", 1)
+
+		next_pdf = next_pdf[::-1]
+
+		with open('url_list', 'r') as searchfile:
+			for line in searchfile:
+				if next_pdf in line:
+					flag = 1
+
+		if (flag == 1):
+			break
+
+		url_list.write(next_pdf + "\n");
+
+		print "%s" % (next_pdf)
+
+
+populate_list()
