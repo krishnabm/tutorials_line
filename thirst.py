@@ -57,6 +57,19 @@ def populate_list():
 		url_list.write(next_pdf + "\n");
 
 		print "%s" % (next_pdf)
+	
+	url_list.close();
+
+
+def download_pdfs():
+	with open('url_list', 'r') as searchfile:
+		for line in searchfile:
+			os.system("wget " + line)
+			print line + "DOWNLOADED"
 
 
 populate_list()
+
+download_pdfs()
+
+os.system("rm url_list")
