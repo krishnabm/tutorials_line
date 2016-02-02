@@ -69,7 +69,8 @@ def download_pdfs():
 
 
 populate_list()
-
 download_pdfs()
 
-os.system("rm url_list")
+os.system("pdfunite *.pdf res.pdf")
+os.system("mkdir res && mv res.pdf ${PWD}/res/res.pdf")
+os.system("rm url_list *.pdf *.pdf.*")  #Crude Fix for duplicate pdfs

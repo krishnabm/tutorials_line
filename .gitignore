@@ -1,4 +1,6 @@
 *.[oa]
 *.htm
 *~
+*.pdf
+*.pdf.*
 url_list
