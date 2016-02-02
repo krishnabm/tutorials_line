@@ -62,15 +62,18 @@ def populate_list():
 
 
 def download_pdfs():
-	with open('url_list', 'r') as searchfile:
+	with open('url_list1', 'r') as searchfile:
 		for line in searchfile:
 			os.system("wget " + line)
-			print line + "DOWNLOADED"
 
 
 populate_list()
+
+os.system("sort -u url_list > url_list1 && rm url_list")
+
 download_pdfs()
 
 os.system("pdfunite *.pdf res.pdf")
 os.system("mkdir res && mv res.pdf ${PWD}/res/res.pdf")
-os.system("rm url_list *.pdf *.pdf.*")  #Crude Fix for duplicate pdfs
+#os.system("rm url_list *.pdf *.pdf.*")  #Crude Fix for duplicate pdfs
+os.system("rm url_list1 *.pdf")
