@@ -74,6 +74,5 @@ os.system("sort -u url_list > url_list1 && rm url_list")
 download_pdfs()
 
 os.system("pdfunite *.pdf res.pdf")
-os.system("mkdir res && mv res.pdf ${PWD}/res/res.pdf")
-#os.system("rm url_list *.pdf *.pdf.*")  #Crude Fix for duplicate pdfs
+os.system("mkdir res || mv res.pdf ${PWD}/res/res.pdf")
 os.system("rm url_list1 *.pdf")
